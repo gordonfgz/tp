@@ -1,0 +1,42 @@
+@startuml
+skinparam backgroundColor #ffffff
+skinparam classAttributeIconSize 0
+hide circle
+
+abstract class "{abstract}\nCommand" {
+    + {abstract} execute(model : Model) : CommandResult
+}
+
+class Model <<interface>> {
+    + addPatient(patient : ReadOnlyAddressBook) : void
+    + deletePatient(patient : ReadOnlyAddressBook) : void
+    + setPatient(patient : ReadOnlyAddressBook) : void
+    + getFilteredPatientList(): ObservableList<Patient>
+}
+
+Model ..> ReadOnlyAddressBook
+
+class ReadOnlyAddressBook <<interface>> {
+    + getPatientList() : ObservableList<Patient>
+}
+
+class PatientXYZCommand {
+    /' Methods '/
+    + execute(model : Model) : CommandResult
+}
+
+class PatientXYZCommandParser implements Parser {
+    /' Methods '/
+    + parse(args : String) : PatientXYZCommand
+}
+
+interface Parser<T> <<interface>> {
+    parse(userInput : String) : PatientXYZCommand
+}
+
+class PatientXYZCommand
+
+PatientXYZCommand <..left PatientXYZCommandParser
+PatientXYZCommand ..> Model
+PatientXYZCommand --up|> "{abstract}\nCommand"
+@enduml

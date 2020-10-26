@@ -234,8 +234,8 @@ Sets the specified patient appointment in Archangel as completed.
 
 Format: `a-complete INDEX`
 
-* Edits the appointment at the specified INDEX. 
-* The index refers to the index number shown in the displayed appointment list. 
+* Edits the appointment at the specified INDEX.
+* The index refers to the index number shown in the displayed appointment list.
 * The index must be a positive integer 1, 2, 3, …​
 
 Examples:
@@ -319,6 +319,11 @@ Undo your previous command in Archangel.
 
 Format: `undo`
 
+* This command has no keywords
+* This command does not work with filter commands (`a-completed`,`a-missed`,`a-upcoming`,`a-today`,`a-find`,`a-list`)
+  as its implementation purpose is to assist the user in undo-ing his changes, filter commands do not make changes to the data.
+* This command can be succeeded by a `redo` command.
+
 Examples:
 * `p-edit 2 d/Review Session /t` followed by `undo` undoes the edit command and make no changes to Archangel.
 
@@ -326,6 +331,9 @@ Examples:
 Redo your previous command(`undo`) in Archangel.
 
 Format: `redo`
+
+* This command has no keywords
+* This command must be preceded by `undo`
 
 Examples:
 * `p-edit 2 d/Review Session /t` followed by `undo` then `redo` redoes the `undo` command and carries out the edit command.

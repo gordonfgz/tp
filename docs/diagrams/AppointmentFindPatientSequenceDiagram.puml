@@ -4,52 +4,53 @@
 box Logic LOGIC_COLOR_T1
 participant ":LogicManager" as LogicManager LOGIC_COLOR
 participant ":AddressBookParser" as AddressBookParser LOGIC_COLOR
-participant ":AppointmentWithFilterCommandParser" as AppointmentWithFilterCommandParser LOGIC_COLOR
-participant "predicate:AppointmentFilter" as AppointmentFilter LOGIC_COLOR
-participant "command:AppointmentWithFilterCommand" as AppointmentFindPatientCommand LOGIC_COLOR
+participant ":AppointmentFindPatientCommandParser" as AppointmentFindPatientCommandParser LOGIC_COLOR
+participant "predicate:SearchPatientFilter" as SearchPatientFilter LOGIC_COLOR
+participant "command:AppointmentFindPatientCommand" as AppointmentFindPatientCommand LOGIC_COLOR
 participant "result :CommandResult" as CommandResult LOGIC_COLOR
 end box
+
+note left of LogicManager: Sequence Diagram \n works for commands \n that  filters the appointment list
 
 box Model MODEL_COLOR_T1
 participant ":Model" as Model MODEL_COLOR
 end box
 
-[-> LogicManager : execute("input")
+[-> LogicManager : execute("a-find Jack")
 activate LogicManager
 
-LogicManager -> AddressBookParser : parseCommand("input")
+LogicManager -> AddressBookParser : parseCommand("a-find Jack")
 activate AddressBookParser
 
-create AppointmentWithFilterCommandParser
-AddressBookParser -> AppointmentWithFilterCommandParser
-activate AppointmentWithFilterCommandParser
+create AppointmentFindPatientCommandParser
+AddressBookParser -> AppointmentFindPatientCommandParser
+activate AppointmentFindPatientCommandParser
 
-AppointmentWithFilterCommandParser --> AddressBookParser
-deactivate AppointmentWithFilterCommandParser
+AppointmentFindPatientCommandParser --> AddressBookParser
+deactivate AppointmentFindPatientCommandParser
 
-AddressBookParser -> AppointmentWithFilterCommandParser : parse("input")
-activate AppointmentWithFilterCommandParser
+AddressBookParser -> AppointmentFindPatientCommandParser : parse("Jack")
+activate AppointmentFindPatientCommandParser
 
 
-create AppointmentFilter
-AppointmentWithFilterCommandParser -> AppointmentFilter
-activate AppointmentFilter
+create SearchPatientFilter
+AppointmentFindPatientCommandParser -> SearchPatientFilter
+activate SearchPatientFilter
 
-AppointmentFilter --> AppointmentWithFilterCommandParser : predicate
-deactivate AppointmentFilter
+SearchPatientFilter --> AppointmentFindPatientCommandParser : predicate
+deactivate SearchPatientFilter
 
 create AppointmentFindPatientCommand
-AppointmentWithFilterCommandParser -> AppointmentFindPatientCommand
+AppointmentFindPatientCommandParser -> AppointmentFindPatientCommand
 activate AppointmentFindPatientCommand
 
-AppointmentFindPatientCommand --> AppointmentWithFilterCommandParser : command
+AppointmentFindPatientCommand --> AppointmentFindPatientCommandParser : command
 deactivate AppointmentFindPatientCommand
 
-AppointmentWithFilterCommandParser --> AddressBookParser : command
-deactivate AppointmentWithFilterCommandParser
+AppointmentFindPatientCommandParser --> AddressBookParser : command
+deactivate AppointmentFindPatientCommandParser
 'Hidden arrow to position the destroy marker below the end of the activation bar.
-DeleteCommandParser -[hidden]-> AddressBookParser
-destroy AppointmentWithFilterCommandParser
+destroy AppointmentFindPatientCommandParser
 
 AddressBookParser --> LogicManager : command
 deactivate AddressBookParser

@@ -1,0 +1,52 @@
+@startuml
+skinparam backgroundColor #ffffff
+skinparam classAttributeIconSize 0
+hide circle
+
+abstract class "{abstract}\nCommand" {
+    + {abstract} execute(model : Model) : CommandResult
+}
+
+class Model <<Interface>> {
+
+}
+
+
+class ModelManager {
+    + updateFilteredAppointmentList(predicate : Predicate<Appointment>) : void
+    + getFilteredAppointmentList() : ObservableList<Appointment>
+}
+
+ModelManager ..down|> Model
+
+class AppointmentFindPatientCommand {
+    /' Methods '/
+    + execute(model : Model) : CommandResult
+}
+
+class AppointmentFindPatientCommandParser {
+    /' Methods '/
+    + parse(args : String) : AppointmentFindPatientCommand
+}
+
+interface Parser<T> <<interface>> {
+    parse(userInput : String) : AppointmentFindPatientCommand
+}
+
+interface Predicate<T> <<interface>> {
+    test(appointment : Appointment) : boolean
+}
+
+class SearchPatientFilter {
+    + test(appointment : Appointment) : boolean
+    - keywords : List<String>
+}
+
+AppointmentFindPatientCommandParser ..down|> Parser
+SearchPatientFilter ..left|> Predicate
+AppointmentFindPatientCommandParser ..left> AppointmentFindPatientCommand
+AppointmentFindPatientCommand --up|> "{abstract}\nCommand"
+AppointmentFindPatientCommand ..left> ModelManager
+AppointmentFindPatientCommand ..down> SearchPatientFilter
+
+@enduml

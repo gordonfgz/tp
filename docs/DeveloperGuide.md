@@ -19,6 +19,11 @@ implementation and documentation.
 implementation and documentation in order to enhance and implement some of the features
 inside the software.
 
+### 1.3 How to use this guide
+This Developer Guide is written in a top-down manner, starting with the overall architecture of Archangel, followed by in-depth descriptions of individual features implemented.
+<br></br>To navigate to a specific section in this guide, you can click on individual headers in the **Table of Contents** at the top of this markdown document to jump to that section.
+Within each section, we have also provided brief introductory statements where necessary.
+
 --------------------------------------------------------------------------------------------------------------------
 
 ## **2. Setting up**
@@ -33,25 +38,25 @@ Refer to the guide [_Setting up and getting started_](SettingUp.md).
 
 ![Design Architecture of App](images/ArchitectureDiagram.png)
 
-The ***Architecture Diagram*** given above explains the high-level design of the App. Given below is a quick overview of each component.
+The ***Architecture Diagram*** given above explains the high-level design of Archangel. Given below is a quick overview of each component.
 
 <div markdown="span" class="alert alert-primary">
 
-:bulb: **Tip:** The `.puml` files used to create diagrams in this document can be found in the [diagrams](https://github.com/se-edu/addressbook-level3/tree/master/docs/diagrams/) folder. Refer to the [_PlantUML Tutorial_ at se-edu/guides](https://se-education.org/guides/tutorials/plantUml.html) to learn how to create and edit diagrams.
+:bulb: **Tip:** The `.puml` files used to create diagrams in this document can be found in the [diagrams](https://github.com/AY2021S1-CS2103T-W11-1/tp/tree/master/docs/diagrams) folder. Refer to the [_PlantUML Tutorial_ at se-edu/guides](https://se-education.org/guides/tutorials/plantUml.html) to learn how to create and edit diagrams.
 
 </div>
 
-**`Main`** has two classes called [`Main`](https://github.com/se-edu/addressbook-level3/tree/master/src/main/java/seedu/address/Main.java) and [`MainApp`](https://github.com/se-edu/addressbook-level3/tree/master/src/main/java/seedu/address/MainApp.java). It is responsible for,
+**`Main`** has two classes called [`Main`](https://github.com/AY2021S1-CS2103T-W11-1/tp/tree/master/src/main/java/seedu/address/Main.java) and [`MainApp`](https://github.com/AY2021S1-CS2103T-W11-1/tp/tree/master/src/main/java/seedu/address/MainApp.java). It is responsible for,
 * At app launch: Initializes the components in the correct sequence, and connects them up with each other.
 * At shut down: Shuts down the components and invokes cleanup methods where necessary.
 
 [**`Commons`**](#common-classes) represents a collection of classes used by multiple other components.
 
-The rest of the App consists of four components.
+The rest of Archangel consists of four components.
 
-* [**`UI`**](#ui-component): The UI of the App.
+* [**`UI`**](#ui-component): The UI of Archangel.
 * [**`Logic`**](#logic-component): The command executor.
-* [**`Model`**](#model-component): Holds the data of the App in memory.
+* [**`Model`**](#model-component): Holds the data of Archangel in memory.
 * [**`Storage`**](#storage-component): Reads data from, and writes data to, the hard disk.
 
 Each of the four components,
@@ -62,25 +67,26 @@ Each of the four components,
 For example, the `Logic` component (see the class diagram given below) defines its API in the `Logic.java` interface and exposes its functionality using the `LogicManager.java` class which implements the `Logic` interface.
 
 ![Class Diagram of the Logic Component](images/LogicClassDiagram.png)
-_Diagram 3.1 : Logic Class Diagram_
+<br></br>_Diagram 3.1.1 : Logic Class Diagram_
 
 **How the architecture components interact with each other**
 
 The *Sequence Diagram* below shows how the components interact with each other for the scenario where the user issues the command `delete 1`.
 
 ![Interaction between components](images/ArchitectureSequenceDiagram.png)
+<br></br>_Diagram 3.1.2 : Architecture Sequence Diagram_
 
 The sections below give more details of each component.
 
 ### 3.2 UI component
 
 ![Structure of the UI Component](images/UiClassDiagram.png)
-_Diagram 3.2 : UI Class Diagram_
+<br></br>_Diagram 3.2 : UI Class Diagram_
 
 **API** :
-[`Ui.java`](https://github.com/se-edu/addressbook-level3/tree/master/src/main/java/seedu/address/ui/Ui.java)
+[`Ui.java`](https://github.com/AY2021S1-CS2103T-W11-1/tp/tree/master/src/main/java/seedu/address/ui/Ui.java)
 
-The UI consists of a `MainWindow` that is made up of parts e.g.`CommandBox`, `ResultDisplay`, `PatientListPanel`, `StatusBarFooter` etc. All these, including the `MainWindow`, inherit from the abstract `UiPart` class.
+The UI consists of a `MainWindow` that is made up of parts e.g.`CommandBox`, `ResultDisplay`, `PatientListPanel`, `AppointmentListPanel`, `StatusBarFooter` etc. All these, including the `MainWindow`, inherit from the abstract `UiPart` class.
 
 The `UI` component uses JavaFx UI framework. The layout of these UI parts are defined in matching `.fxml` files that are in the `src/main/resources/view` folder. For example, the layout of the [`MainWindow`](https://github.com/se-edu/addressbook-level3/tree/master/src/main/java/seedu/address/ui/MainWindow.java) is specified in [`MainWindow.fxml`](https://github.com/se-edu/addressbook-level3/tree/master/src/main/resources/view/MainWindow.fxml)
 
@@ -92,21 +98,21 @@ The `UI` component,
 ### 3.3 Logic component
 
 ![Structure of the Logic Component](images/LogicClassDiagram.png)
-_Diagram 3.3.1 : Delete Sequence Diagram_
+<br></br>_Diagram 3.3.1 : Logic Class Diagram_
 
 **API** :
-[`Logic.java`](https://github.com/se-edu/addressbook-level3/tree/master/src/main/java/seedu/address/logic/Logic.java)
+[`Logic.java`](https://github.com/AY2021S1-CS2103T-W11-1/tp/tree/master/src/main/java/seedu/address/logic/Logic.java)
 
 1. `Logic` uses the `AddressBookParser` class to parse the user command.
-1. This results in a `Command` object which is executed by the `LogicManager`.
-1. The command execution can affect the `Model` (e.g. adding a patient).
-1. The result of the command execution is encapsulated as a `CommandResult` object which is passed back to the `Ui`.
-1. In addition, the `CommandResult` object can also instruct the `Ui` to perform certain actions, such as displaying help to the user.
+2. This results in a `Command` object which is executed by the `LogicManager`.
+3. The command execution can affect the `Model` (e.g. adding a patient).
+4. The result of the command execution is encapsulated as a `CommandResult` object which is passed back to the `Ui`.
+5. In addition, the `CommandResult` object can also instruct the `Ui` to perform certain actions, such as displaying help to the user.
 
 Given below is the Sequence Diagram for interactions within the `Logic` component for the `execute("delete 1")` API call.
 
 ![Interactions Inside the Logic Component for the `delete 1` Command](images/DeleteSequenceDiagram.png)
-_Diagram 3.3.2 : Model Class Diagram_
+<br></br>_Diagram 3.3.2 : Delete Sequence Diagram_
 
 <div markdown="span" class="alert alert-info">:information_source: **Note:** The lifeline for `DeleteCommandParser` should end at the destroy marker (X) but due to a limitation of PlantUML, the lifeline reaches the end of diagram.
 </div>
@@ -114,9 +120,9 @@ _Diagram 3.3.2 : Model Class Diagram_
 ### 3.4 Model component
 
 ![Structure of the Model Component](images/ModelClassDiagram.png)
-_Diagram 3.4 : Model Class Diagram_
+<br></br>_Diagram 3.4 : Model Class Diagram_
 
-**API** : [`Model.java`](https://github.com/se-edu/addressbook-level3/tree/master/src/main/java/seedu/address/model/Model.java)
+**API** : [`Model.java`](https://github.com/AY2021S1-CS2103T-W11-1/tp/tree/master/src/main/java/seedu/address/model/Model.java)
 
 The `Model`,
 
@@ -135,9 +141,9 @@ The `Model`,
 ### 3.5 Storage component
 
 ![Structure of the Storage Component](images/StorageClassDiagram.png)
-_Diagram 3.5 : Storage Class Diagram_
+<br></br>_Diagram 3.5 : Storage Class Diagram_
 
-**API** : [`Storage.java`](https://github.com/se-edu/addressbook-level3/tree/master/src/main/java/seedu/address/storage/Storage.java)
+**API** : [`Storage.java`](https://github.com/AY2021S1-CS2103T-W11-1/tp/tree/master/src/main/java/seedu/address/storage/Storage.java)
 
 The `Storage` component,
 * can save `UserPref` objects in json format and read it back.
@@ -151,6 +157,7 @@ Classes used by multiple components are in the `seedu.addressbook.commons` packa
 
 ## **4. Implementation**
 
+As the previous Design section illustrated the general architecture of the app, this section aims to illustrate what happens at the deeper levels.
 This section describes some noteworthy details on how certain features are implemented.
 
 ### 4.1 Patient Commands
@@ -158,6 +165,9 @@ This section describes some noteworthy details on how certain features are imple
 ##### 4.1.1 Before we dive in
 
 It is important to know the architectural design of the app to be able to understand this section.
+Please ensure that you have read section **3.3 Logic components** before diving deeper into this section as most implemented features make use of the same principles.
+
+<!-- // Commented this out as it seems to be mostly repeating section 3.3
 Here is a summary of the logic flow:
 1. User inputs into command line
 2. `LogicManager` handles the input, and calls `AddressBookParser`'s `parseCommand(String userInput)` method with the input as its argument.
@@ -165,16 +175,35 @@ Here is a summary of the logic flow:
 4. This `parse(String args)` method mentioned above will carry out its tasks required for the specific command.
 5. After the tasks are completed, the `parse(String args)` method will return a `Command` object to the `LogicManager` for execution.
 6. `Command` object's `execute()` method will be called and the `Model` will be modified with the change determined by the user's input.
+--->
 
+#### 4.1.2 Structure of Patient Commands
+
+The following diagram shows the overview of a generic patient command `PatientXYZCommand`, where `XYZ` could be `Add`, `Delete` etc. :
+![Structure of Patient Command](images/PatientCommandStructureDiagram.png)
+<br></br>_Diagram 4.1.2 : Patient Command Structure Diagram_
+
+In each `PatientXYZCommand` class, there are static messages as follows:
+* `COMMAND_WORD` - String denoting the command word `Parser` will check for to determine which type of command user input should invoke.
+* `MESSAGE_USAGE` - String containing a input guide message for when user inputs are in incorrect formats.
+
+<!--
 ##### 4.1.2 Focus
+
 As the previous Design section illustrated the general architecture of the app, this section aims to illustrate what happens at the deeper levels.
 This section will focus on what happens in the various command parsers, i.e. `AddCommandParser` , `EditCommandParser`.
-This section will also focus on what happens when the respective command is executed. 
+This section will also focus on what happens when the respective commands are executed.
+--->
 
 #### 4.1.3 Add Patient
 
-##### 4.1.3.1 Implementation
+##### Implementation
 
+The Add patient command has a highly similar logic and implementation as a Delete patient command (see Diagram 4.1.2 and 3.3.2).
+The only notable difference is that an Add patient command does not require parsing of an `Index`. (i.e. `parse("1")` is not applicable)
+<br></br>On execution, the `Patient` object stored in the `PatientAddCommand` object will be added to the Model.
+
+<!--
 The arguments of an Add command includes the necessary fields required to create a `Patient` object.
 
 What happens at `AddCommandParser().parse(arguments)`:
@@ -182,37 +211,42 @@ What happens at `AddCommandParser().parse(arguments)`:
 2. As every field of a `Patient` is its respective object, the `AddCommandParser().parse(arguments)` method will use `ParserUtil`'s parse methods for each field to create the new respective field object.
 3. Once all the field objects are created, a new `Patient` object is created with all the field objects as arguments for its constructor.
 4. A `PatientAddCommand` object is created that stores the newly created `Patient` object, and it is returned to the `LogicManager`.
-5. This `PatientEditCommand` object will stored under the `command` variable and then be executed by the `LogicManager`.
-6. At execution, the `Patient` object stored in the `PatientEditCommand` object will be added.
+5. This `PatientEditCommand` object will be stored under the `command` variable and then be executed by the `LogicManager`.
+6. At execution, the `Patient` object stored in the `PatientAddCommand` object will be added.
 
 This is how Adding of Patients is implemented.
-
+--->
 #### 4.1.4 Delete Patient
 
-##### 4.1.4.1 Implementation
+##### Implementation
 
-The arguments of a Delete command includes the `index` of the Patient to be deleted.
+The arguments of a Delete patient command includes the `Index` of the Patient to be deleted (see Diagram 4.1.2 and 3.3.2).
+<br></br>On execution, the `Index` object stored in the `PatientDeleteCommand` object will be used to locate the `Patient` object to be deleted from the Model.
 
+<!--
 What happens at `DeleteCommandParser().parse(arguments)`:
 1. An `Index` object will be created by `ParserUtil`'s `parseIndex(args)` method.
 2. A new `PatientDeleteCommand` object will be created, storing the `Index` object and it is then returned to the `LogicManager`.
 3. This `PatientEditCommand` object will stored under the `command` variable and then be executed by the `LogicManager`.
 4. At execution, the `Index` object stored in the `PatientDeleteCommand` object will be used to locate the `Patient` object to be deleted.
-5. Located `Patient` object will be deleted. 
+5. Located `Patient` object will be deleted.
 
 This is how Deleting of Patients is implemented.
-
+--->
 
 #### 4.1.5 Edit Patient
 
-##### 4.1.5.1 Implementation
+![Interactions Inside the Logic Component for the `p-edit` Command](images/PatientEditCommandSequenceDiagram.png)
+<br></br>_Diagram 4.1.5 : PatientEditCommand Sequence Diagram_
 
-The arguments of an Edit command includes the `index` of the Patient selected for changes and the `changes` the User want to make to the individual fields of a single `Patient`.
+##### Implementation
 
+With reference to Diagram 4.1.5 above, the arguments of an Edit patient command includes the `Index` of the Patient selected for changes and the `changes` the User wants to make to the individual fields of a single `Patient`.
+<br></br>
 What happens at `EditCommandParser().parse(arguments)`:
 1. An `EditPatientDescriptor` object is first created. An `EditPatientDescriptor` object contains all fields that a `Patient` has and acts as a placeholder for the changes.
-2. For each field input present in the argument, that respective field of the `EditPatientDescriptor` object will be set accordingly. 
-PatientFindCommand This object contains the `index` of the `Patient` selected for changes, and the `EditPatientDescriptor` object created in Step 1 and fully modified by Step 2.
+2. For each field input present in the argument, that respective field of the `EditPatientDescriptor` object will be set accordingly.
+PatientFindCommand This object contains the `Index` of the `Patient` selected for changes, and the `EditPatientDescriptor` object created in Step 1 and fully modified by Step 2.
 4. This `PatientEditCommand` object will stored under the `command` variable and then be executed by the `LogicManager`.
 5. At execution, an `editedPatient` object will be created. This `editedPatient` object contains all fields that a Patient has and acts as a placeholder for both the changes from the `EditPatientDescriptor` object and unchanged fields of the original `Patient`.
 6. Since the `editedPatient` object will contain the corrected set of fields to be reflected on the original Patient, the `PatientEditCommand` will replace the current `Patient` object with the `editedPatient` object.
@@ -221,9 +255,9 @@ This is how Editing of Patient information is implemented.
 
 #### 4.1.6 Find Patient
 
-##### 4.1.6.1 Implementation
+##### Implementation
 
-The arguments of an Find command includes the `Keywords` that the User wants to search up. `Keywords` are seperated by spaces.
+The arguments of a Find patient command includes the `Keywords` that the User wants to search up. `Keywords` are seperated by spaces.
 
 What happens at `FindCommandParser().parse(arguments)`:
 1. `Keywords` are put into an `nameKeywords` array.
@@ -236,24 +270,33 @@ This is how Find Patient is implemented.
 
 --------------------------------------------------------------------------------------------------------------------
 ### 4.2 Appointment Commands
-#### 4.2.1 Schedule Appointment
-![Interactions Inside the Logic Component for the `a-schedule` Command](images/ScheduleAppointmentSequenceDiagram.png)
-##### 4.2.1.1 Implementation
-The implementation of scheduling an appointment has a similar execution as adding a patient (see 4.1.1).
 
+In this section, we will introduce all Appointment-type commands and how they work.
+Due to similar implementation of Appointment-type and Patient-type commands
+(e.g. `p-edit` and `a-edit` make use of the same logic), we will be referring to the patient-type counterpart of the same command where applicable.
+Any noteworthy details will still be included under each Appointment-type command below.
+
+#### 4.2.1 Schedule Appointment
+
+##### 4.2.1.1 Implementation
+The implementation of scheduling an appointment has a similar execution as adding a patient (see 4.1.3).
+
+<!--
 The user's input is parsed by the `ScheduleAppointmentCommandParser` class which extends `Parser`, resulting in an `AppointmentScheduleCommand` which extends `Command`.
 Subsequently, the `LogicManager` executes the `AppointmentScheduleCommand` object to schedule an appointment.
+--->
 
-The `Appointment` class stores relevant fields (e.g. `AppointmentTime`, `Description`) and the `Patient`, **and/or** a string representing the patient's index in the `ObservableList<Patient>`, depending on which constructor was invoked on creation of an `Appointment` object.
+The `Appointment` class stores relevant fields (e.g. `AppointmentTime`, `Description`) and the `Patient`, **and/or** a string representing the patient's index in the `ObservableList<Patient>`, depending on which constructor is invoked during execution.
 
 ##### 4.2.1.2 Reason for design of implementation:
+<!-- TO INCLUDE: AppointmentEditCommandActivityDiagram --->
 The reason for having 2 `Appointment` constructors is to improve the ease of scheduling an appointment by the user using the CLI.
 
 To address the problem of mandatory fields being highly time-consuming, we have decided to allow users to simply input a `patientIndex` to identify the patient from the visible `ObservableList<Patient>` without being concerned with typing the exact name or details of the desired patient to assign to the `Appointment`.
 
 ##### 4.2.1.3 Design consideration:
 
-###### 4.2.1.3.1 Aspect: How `Patient` is stored in an `Appointment` object
+###### Aspect: How `Patient` is stored in an `Appointment` object
 * **Alternative 1 (current choice):** Saves the `Patient` object and/or the `patientIndex` String
   * Pros:
     * Easy to implement, gives a less stringent check for `isSameAppointment` for other Appointment-type commands (e.g. `AppointmentEditCommand`).
@@ -267,28 +310,30 @@ To address the problem of mandatory fields being highly time-consuming, we have 
 
 #### 4.2.2 Delete Appointment
 
-##### 4.2.2.1 Implementation
-The implementation of deleting an appointment has a similar execution as deleting a patient (see 4.1.3).
+##### Implementation
+The implementation of deleting an appointment has a similar execution as deleting a patient (see 4.1.4).
 
+<!--
 The user's input is parsed by the `DeleteAppointmentCommandParser` class which extends `Parser`, resulting in an `AppointmentDeleteCommand` which extends `Command`.
 Subsequently, the `LogicManager` executes the `AppointmentDeleteCommand` object to delete the appointment with the given index in `ObservableList<Appointment>`.
+--->
 
 #### 4.2.3 Edit Appointment
 
-![Interactions Inside the Logic Component for the `a-edit` Command](images/EditAppointmentSequenceDiagram.png)
-
 ##### 4.2.3.1 Implementation
-The implementation of editing an appointment has a similar execution as editing a patient (see 4.1.4).
+The implementation of editing an appointment has a similar execution as editing a patient (see 4.1.5).
 
+<!--
 The user's input is parsed by the `EditAppointmentCommandParser` class which extends `Parser`, resulting in an `AppointmentEditCommand` which extends `Command`.
 Subsequently, the `LogicManager` executes the `AppointmentEditCommand` object to edit the appointment with the given index in `ObservableList<Appointment>`.
+--->
 
 ##### 4.2.3.2 Reason for design of implementation:
 The reason for having an `EditAppointmentDescriptor` is to enforce immutability by always creating the edited appointment as a new `Appointment` object.
 
 ##### 4.2.3.3 Design consideration:
 
-###### 4.2.3.3.1 Aspect: How `Patient` is edited in an `Appointment` object
+###### Aspect: How `Patient` is edited in an `Appointment` object
 * **Alternative 1 (current choice):** Edits the `Patient` in the `Appointment` using a `patientIndex` String (e.g. `a-edit 1 pt/2`)
   * Pros: Easy for users to change the patient for the appointment using a single `patientIndex`.
   * Cons: `patientIndex` has to be carefully parsed and retrieved from a patient list that correctly reflects the patient list on the GUI.
@@ -298,29 +343,41 @@ The reason for having an `EditAppointmentDescriptor` is to enforce immutability 
   * Cons: Greater difficulty for users to input the new `Patient` since the `patientName` may not be unique nor accurate to an existing patient in the patient list.
 
 
-#### 4.2.4 Find Appointment (Patient)
-![Sequence Diagram for commands with filter](images/AppointmentWithFilterCommand.png)
-_Diagram 4.2.4 : Appointment Commands with Filters Sequence Diagram_
+#### 4.2.4 Filter Appointment Commands
 
-##### 4.2.4.1 Implementation
+##### 4.2.4.1 Structure
+
+Commands involving filtering of the appointment work similarly by using filters to obtain the appointments needed. For this section, we will be exploring `AppointmentFindPatientCommand` which filters Appointments containing Patients whose name includes the given user input.
+The Command, Parser and Predicate in the class diagram below can be replaced by different sets of values from Diagram 4.2.4.1b.
+ ![Class Diagram for commands with filter](images/AppointmentFindPatientCommandDiagram.png)
+ <br></br>_Diagram 4.2.4.1a : Appointment Commands with Filters Class Diagram_
+ <br></br>Filter Appointment Commands including both its Parser and Predicate are listed below:
+
+| Command                          | Parser                              | Predicate                        | Filters List by:                 |
+|----------------------------------|-------------------------------------|----------------------------------|----------------------------------|
+| 1. AppointmentFindPatientCommand | AppointmentFindPatientCommandParser | SearchPatientFilter              | Patient Name                     |
+| 2. AppointmentTodayCommand       | AppointmentTodayCommandParser       | SearchAppointmentTodayFilter     | Appointments occurring today     |
+| 3. AppointmentWeekCommand        | AppointmentWeekCommandParser        | SearchAppointmentWeekFilter      | Appointments occurring this week |
+| 4. AppointmentTagCommand         | AppointmentTagCommandParser         | SearchAppointmentTagsFilter      | Appointment Tag                  |
+| 5. AppointmentIsMissedCommand    | AppointmentMissedCommandParser      | SearchAppointmentMissedFilter    | Missed Appointments              |
+| 6. AppointmentIsCompletedCommand | AppointmentIsCompletedCommandParser | SearchAppointmentCompletedFilter | Completed Appointments           |
+| 7. AppointmentListCommand        | AppointmentListCommandParser        | SearchAppointmentFilter          | Pending Appointments             |
+
+ <br></br>_Diagram 4.2.4.1b : Appointment Commands with Filters Class Diagram_
+
+##### 4.2.4.2 Implementation
 The search for appointment by patient name works by filtering the appointment list to show only those appointments with
 the given patient name.
 
-The unique classes associated to this command as shown from Diagram 4.2.4 are :
-1. `AppointmentWithFilterCommandParser: AppointmentFindPatientCommandParser`— Parses input arguments and creates a new AppointmentFindPatientCommand object.
-1. `AppointmentFilter: SearchPatientFilter`— Checks if the appointment contains any patient which contains any keywords form the arguments.
-1. `AppointmentWithFilterCommand: AppointmentFindPatientCommand`— Applies the filter to the appointment list.
-#### 4.2.5 Find Appointment (Tag)
-##### 4.2.5.1 Implementation
-The search for appointment by tags works by filtering the appointment list to show only those appointments with
-the given tags.
+![Sequence Diagram for commands with filter](images/AppointmentFindPatientSequenceDiagram.png)
+<br></br>_Diagram 4.2.4.2 : Appointment Commands with Filters Sequence Diagram_
 
-The unique classes associated to this command as shown from Diagram 4.2.4 are :
-1. `AppointmentWithFilterCommandParser: AppointmentTagCommandParser`— Parses input arguments and creates a new AppointmentTagCommand object.
-1. `AppointmentFilter: SearchAppointmentTagsFilter`— Checks if the appointment contains any tags with the keywords form the arguments.
-1. `AppointmentWithFilterCommand: AppointmentTagCommand`— Applies the filter to the appointment list.
+The unique classes associated to `AppointmentFindPatientCommand`  command:
+1. `AppointmentFindPatientCommandParser`— Parses input arguments and creates a new AppointmentFindPatientCommand object.
+2. `SearchPatientFilter`— Checks if the appointment contains any patient which contains any keywords form the arguments.
+3. `AppointmentFindPatientCommand`— Applies the filter to the appointment list.
 
-##### 4.2.5.2 Design considerations
+##### 4.2.4.3 Design considerations
 * **Alternative 1 (current choice):** Store the appointments by date added.
   * Pros: Easy to implement and less overhead operations when using adding appointments.
   * Cons: May not be the fastest way to search for appointments.
@@ -331,90 +388,33 @@ The unique classes associated to this command as shown from Diagram 4.2.4 are :
   You also need to update the sequence of storage file by tag every time you schedule an appointment. In addition,
   there might be a conflict for those appointments with more than one tags.
 
-#### 4.2.6 Find Appointment (Today)
-##### 4.2.6.1 Implementation
-The search for appointment by the current date works by filtering the appointment list to show only those appointments with
-that occurs on the current day.
-
-The unique classes associated to this command as shown from Diagram 4.2.4 are :
-1. `AppointmentWithFilterCommandParser: AppointmentTodayCommandParser`— Creates a new AppointmentTodayCommand object.
-1. `AppointmentFilter: SearchAppointmentTodayFilter`— Checks if the appointment occurs within the current day.
-1. `AppointmentWithFilterCommand: AppointmentTodayCommand`— Applies the filter to the appointment list.
-#### 4.2.7 Find Appointment (Current Week)
-##### 4.2.7.1 Implementation
-The search for appointment by the current week works by filtering the appointment list to show only those appointments with
-that occurs on the same week (Sunday to Saturday)
-
-The unique classes associated to this command as shown from Diagram 4.2.4 are :
-1. `AppointmentWithFilterCommandParser: AppointmentWeekCommandParser`— Creates a new AppointmentTodayCommand object.
-1. `AppointmentFilter: SearchAppointmentWeekFilter`— Checks if the appointment occurs within the current week.
-1. `AppointmentWithFilterCommand: AppointmentWeekCommand`— Applies the filter to the appointment list.
-
-##### 4.2.7.2 Design considerations
-* **Alternative 1 (current choice):** Store the appointments by date added.
-  * Pros: Easy to implement and less overhead operations when using adding appointments.
-  * Cons: May not be the fastest way to search for appointments.
-
-* **Alternative 2:** Store the appointments by start date and search the dates by Binary Search.
-  * Pros: Search operation for this will be faster.
-  * Cons: Additional overhead every time you add an appointment as you need to know where to insert the command.
-  You also need to update the sequence of storage file every time you schedule an appointment.
-
-#### 4.2.8 Complete Appointment
-
-##### 4.2.8.1 Implementation
-Sets a specified appointment as completed.
-
-The unique classes associated to this command as shown from Diagram 4.2.8 are :
-1. `AppointmentCommandParser: AppointmentCompleteCommandParser`— Creates a new AppointmentCompleteCommand object.
-1. `AppointmentCommand: AppointmentCompleteCommand`— Identifies the specified appointment from list and passes it to ModelManager to set as completed.
-
-#### 4.2.9 List All Appointments
+#### 4.2.5 List All Appointments
 ![Sequence Diagram for command to list all appointments in addressbook](images/AppointmentListAllCommand.png)
+<br></br>_Diagram 4.2.5 : Appointment List All Command Sequence Diagram_
 
-##### 4.2.9.1 Implementation
+##### Implementation
 Listing all appointments from the appointment list.
 
-The unique classes associated to this command as shown from Diagram 4.2.9 are :
+The unique classes associated to this command as shown from Diagram 4.2.6 are :
 1. `AppointmentCommandParser: AppointmentListAllCommandParser`— Creates a new AppointmentListAllCommand object.
-1. `AppointmentCommand: AppointmentListAllCommand`— Keeps appointment list unfiltered.
+2. `AppointmentCommand: AppointmentListAllCommand`— Keeps appointment list unfiltered.
 
-#### 4.2.10 List Appointments (Upcoming)
+#### 4.2.6 Complete Appointment
 
-##### 4.2.10.1 Implementation
-Listing upcoming appointments works by filtering the appointment list to show only those appointments that are labelled as not completed and not missed.
+##### Implementation
+Sets a specified appointment as completed.
 
-The unique classes associated to this command as shown from Diagram 4.2.10 are :
-1. `AppointmentWithFilterCommandParser: AppointmentListCommandParser`— Creates a new AppointmentListCommand object.
-1. `AppointmentFilter: SearchAppointmentFilter`— Checks if appointments are both not completed and not missed.
-1. `AppointmentWithFilterCommand: AppointmentListCommand`— Applies the filter to the appointment list.
-
-#### 4.2.11 List Appointments (Completed)
-
-##### 4.2.11.1 Implementation
-Listing completed appointments works by filtering the appointment list to show only those appointments that labelled as completed.
-
-The unique classes associated to this command as shown from Diagram 4.2.11 are :
-1. `AppointmentWithFilterCommandParser: AppointmentIsCompletedCommandParser`— Creates a new AppointmentIsCompletedCommand object.
-1. `AppointmentFilter: SearchAppointmentCompletedFilter`— Checks if appointments are completed.
-1. `AppointmentWithFilterCommand: AppointmentIsCompletedCommand`— Applies the filter to the appointment list.
-
-#### 4.2.12 List Appointment (Missed)
-
-##### 4.2.12.1 Implementation
-Listing missed appointments works by filtering the appointment list to show only those appointments that labelled as missed.
-
-The unique classes associated to this command as shown from Diagram 4.2.12 are :
-1. `AppointmentWithFilterCommandParser: AppointmentIsMissedCommandParser`— Creates a new AppointmentIsMissedCommand object.
-1. `AppointmentFilter: SearchAppointmentMissedFilter`— Checks if appointments are missed.
-1. `AppointmentWithFilterCommand: AppointmentIsMissedCommand`— Applies the filter to the appointment list.
+The unique classes associated to this command as shown from Diagram 4.2.5 are :
+1. `AppointmentCommandParser: AppointmentCompleteCommandParser`— Creates a new AppointmentCompleteCommand object.
+2. `AppointmentCommand: AppointmentCompleteCommand`— Identifies the specified appointment from list and passes it to ModelManager to set as completed.
 
 --------------------------------------------------------------------------------------------------------------------
 
 ### 4.3 General Commands
+
 #### 4.3.1 Undo/redo feature
 
-##### 4.3.1.1 Implementation
+##### Implementation
 
 The proposed undo/redo mechanism is facilitated by `UserHistoryManager`. It extends `AddressBook` with an undo/redo history, stored internally in `userHistory` as  `Stack<Pair<List<Patient>, List<Appointment>>>`. Additionally, it implements the following operations:
 
@@ -481,16 +481,16 @@ The following activity diagram summarizes what happens when a user executes a ne
 ![CommitActivityDiagram](images/CommitActivityDiagram.png)
 --->
 
-##### 4.3.1.2 Reason for design of implementation:
+##### Reason for design of implementation:
 The reason for the design of userHistory using a stack is due to the functionality of `undoHistory()`. We want to be able undo the latest changes to the `UniquePatientList` or `UniqueAppointmentList`.
 This follows the `Last In,First Out(LIFO)` design which can be implementated using the `stack` data structure.
 
 A concern using this design is that the memory usage might be undesirable due to the large of memory usage needed to store every user history at each command.
 However, after many test runs, we concluded that the memory usage of the user history was insignificant and thus this design can be safely implememented with no drawbacks.
 
-##### 4.3.1.2 Design consideration:
+##### Design consideration:
 
-###### 4.3.1.2.1 Aspect: How undo & redo executes
+###### Aspect: How undo & redo executes
 
 * **Alternative 1 (current choice):** Saves the entire address book.
   * Pros: Easy to implement.
@@ -506,7 +506,6 @@ However, after many test runs, we concluded that the memory usage of the user hi
   * Cons: Very difficult to implement, some commands might not have `pair command`(e.g for `edit`, it is own pair command but pair command to call for undo is hard to implement).
 
 #### 4.3.2 Help
-
 
 ### \[Proposed\] Data archiving
 
@@ -617,24 +616,24 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
 **MSS**
 
-1.  User requests to show appointment list
-2.  AddressBook shows appointment list
-3.  User requests to schedule a patient appointment
-4.  AddressBook schedule the patient appointment
+1.  User requests to schedule a patient appointment
+2.  AddressBook schedule the patient appointment
 
     Use case ends.
 
 **Extensions**
 
-* 2a. The appointment has conflict with another appointment.
+* 1a. The appointment has conflict with another appointment.
 
-  Use case ends.
+    * 1a1. AddressBook shows an error message.
 
-* 3a. The appointment's date/timing is invalid.
+      Use case resumes at step 1.
 
-    * 3a1. AddressBook shows an error message.
+* 1b. The appointment's date/timing is invalid.
 
-      Use case resumes at step 3.
+    * 1b1. AddressBook shows an error message.
+
+      Use case resumes at step 1.
 
 **Use case: Delete a patient appointment**
 
@@ -723,7 +722,7 @@ testers are expected to do more *exploratory* testing.
 
 ### 7.3 Viewing a patient
 
-1. Viewing a patient while all patients are being shown
+1. Viewing a patient while all patients are shown
 
    1. Test case: `view Kim Guan`<br>
       Expected: Details of patient named 'Kim Guan' is shown.

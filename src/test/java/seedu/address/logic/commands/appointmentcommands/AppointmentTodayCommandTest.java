@@ -27,7 +27,6 @@ public class AppointmentTodayCommandTest {
     private Model model2 = new ModelManager(TypicalAppointments.getTypicalAddressBook2(), new UserPrefs());
     private Model expectedModel2 = new ModelManager(TypicalAppointments.getTypicalAddressBook2(), new UserPrefs());
 
-
     @Test
     public void equals() {
         SearchAppointmentTodayFilter firstPredicate =

@@ -101,7 +101,6 @@ public class AddressBookParser {
             return new AppointmentDeleteCommandParser().parse(arguments);
 
         case AppointmentScheduleCommand.COMMAND_WORD:
-            System.out.println("schedule called");
             return new AppointmentScheduleCommandParser().parse(arguments);
 
         case AppointmentListCommand.COMMAND_WORD:

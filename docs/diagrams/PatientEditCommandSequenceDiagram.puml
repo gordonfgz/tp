@@ -1,0 +1,77 @@
+@startuml
+!include style.puml
+
+box Logic LOGIC_COLOR_T1
+participant ":LogicManager" as LogicManager LOGIC_COLOR
+participant ":AddressBookParser" as AddressBookParser LOGIC_COLOR
+participant ":PatientEditCommandParser" as PatientEditCommandParser LOGIC_COLOR
+participant ":EditPatientDescriptor" as EditPatientDescriptor LOGIC_COLOR
+participant ":PatientEditCommand" as PatientEditCommand LOGIC_COLOR
+participant ":CommandResult" as CommandResult LOGIC_COLOR
+end box
+
+box Model MODEL_COLOR_T1
+participant ":Model" as Model MODEL_COLOR
+end box
+
+[-> LogicManager : execute(input)
+activate LogicManager
+
+LogicManager -> AddressBookParser : parseCommand(input)
+activate AddressBookParser
+
+create PatientEditCommandParser
+AddressBookParser -> PatientEditCommandParser
+activate PatientEditCommandParser
+
+PatientEditCommandParser --> AddressBookParser
+deactivate PatientEditCommandParser
+
+AddressBookParser -> PatientEditCommandParser : parse(input)
+activate PatientEditCommandParser
+
+create EditPatientDescriptor
+PatientEditCommandParser -> EditPatientDescriptor
+activate EditPatientDescriptor
+
+EditPatientDescriptor --> PatientEditCommandParser : descriptor
+deactivate EditPatientDescriptor
+
+create PatientEditCommand
+PatientEditCommandParser -> PatientEditCommand : new PatientEditCommand(1, descriptor)
+activate PatientEditCommand
+
+PatientEditCommand --> PatientEditCommandParser : editCommand
+deactivate PatientEditCommand
+
+PatientEditCommandParser --> AddressBookParser : editCommand
+deactivate PatientEditCommandParser
+'Hidden arrow to position the destroy marker below the end of the activation bar.
+PatientEditCommandParser -[hidden]-> AddressBookParser
+destroy PatientEditCommandParser
+
+AddressBookParser --> LogicManager : editCommand
+deactivate AddressBookParser
+
+LogicManager -> PatientEditCommand : execute()
+activate PatientEditCommand
+
+PatientEditCommand -> Model : createEditedPatient()
+activate Model
+
+Model --> PatientEditCommand
+deactivate Model
+
+create CommandResult
+PatientEditCommand -> CommandResult
+activate CommandResult
+
+CommandResult --> PatientEditCommand
+deactivate CommandResult
+
+PatientEditCommand --> LogicManager : result
+deactivate PatientEditCommand
+
+[<--LogicManager
+deactivate LogicManager
+@enduml

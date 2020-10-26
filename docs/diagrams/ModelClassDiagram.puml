@@ -22,12 +22,27 @@ Class Email
 Class Name
 Class Phone
 Class UniquePatientList
+Class Remark
+Class BloodType
+Class BirthDate
+
 }
 
 Package Tag {
 Class Tag
 }
+
+Package Appointment {
+Class UniqueAppointmentList
+Class Appointment
+Class AppointmentTime
+Class Description
+Class AppointmentTime
+
 }
+}
+
+
 
 Class HiddenOutside #FFFFFF
 HiddenOutside ..> Model
@@ -41,16 +56,30 @@ ModelManager o-left-> "1" UserPrefs
 UserPrefs .up.|> ReadOnlyUserPrefs
 
 AddressBook *--> "1" UniquePatientList
+AddressBook *--> "1" UniqueAppointmentList
+
+UniqueAppointmentList o--> "*" Appointment
 UniquePatientList o--> "*" Patient
+
+Appointment *--> Description
+Appointment *--> AppointmentTime
+Appointment *--> "*" Tag
+
 Patient *--> Name
+Patient *--> Remark
 Patient *--> Phone
 Patient *--> Email
 Patient *--> Address
 Patient *--> "*" Tag
+Patient *--> BirthDate
+Patient *--> BloodType
+
 
 Name -[hidden]right-> Phone
 Phone -[hidden]right-> Address
 Address -[hidden]right-> Email
 
+ModelManager -->"1" Appointment : filtered appointment
 ModelManager -->"1" Patient : filtered list
+
 @enduml

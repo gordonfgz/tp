@@ -14,7 +14,7 @@ import seedu.address.model.appointment.Appointment;
  */
 public class AppointmentCard extends UiPart<Region> {
 
-    private static final String FXML = "AppointmentListCard.fxml";
+    private static final String FXML = "AppointmentCard.fxml";
 
     /**
      * Note: Certain keywords such as "location" and "resources" are reserved keywords in JavaFX.
