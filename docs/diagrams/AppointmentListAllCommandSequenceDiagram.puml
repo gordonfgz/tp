@@ -1,0 +1,70 @@
+@startuml
+!include style.puml
+
+box Logic LOGIC_COLOR_T1
+participant ":LogicManager" as LogicManager LOGIC_COLOR
+participant ":AddressBookParser" as AddressBookParser LOGIC_COLOR
+participant ":AppointmentListAllCommandParser" as AppointmentListAllCommandParser LOGIC_COLOR
+participant ":AppointmentListAllCommand" as AppointmentListAllCommand LOGIC_COLOR
+participant ":CommandResult" as CommandResult LOGIC_COLOR
+end box
+
+box Model MODEL_COLOR_T1
+participant ":Model" as Model MODEL_COLOR
+end box
+
+[-> LogicManager : execute(input)
+note left of LogicManager: Input:\n"a-listall"
+activate LogicManager
+
+LogicManager -> AddressBookParser : parseCommand(input)
+activate AddressBookParser
+
+create AppointmentListAllCommandParser
+AddressBookParser -> AppointmentListAllCommandParser
+activate AppointmentListAllCommandParser
+
+AppointmentListAllCommandParser --> AddressBookParser
+deactivate AppointmentListAllCommandParser
+
+AddressBookParser -> AppointmentListAllCommandParser : parse(input)
+activate AppointmentListAllCommandParser
+
+create AppointmentListAllCommand
+AppointmentListAllCommandParser -> AppointmentListAllCommand
+activate AppointmentListAllCommand
+
+AppointmentListAllCommand --> AppointmentListAllCommandParser : listAllCommand
+deactivate AppointmentListAllCommand
+
+AppointmentListAllCommandParser --> AddressBookParser : listAllCommand
+deactivate AppointmentListAllCommandParser
+'Hidden arrow to position the destroy marker below the end of the activation bar.
+AppointmentListAllCommandParser -[hidden]-> AddressBookParser
+destroy AppointmentListAllCommandParser
+
+AddressBookParser --> LogicManager : listAllCommand
+deactivate AddressBookParser
+
+LogicManager -> AppointmentListAllCommand : execute()
+activate AppointmentListAllCommand
+
+AppointmentListAllCommand -> Model : updateFilteredAppointmentList()
+activate Model
+
+Model --> AppointmentListAllCommand
+deactivate Model
+
+create CommandResult
+AppointmentListAllCommand -> CommandResult
+activate CommandResult
+
+CommandResult --> AppointmentListAllCommand
+deactivate CommandResult
+
+AppointmentListAllCommand --> LogicManager : result
+deactivate AppointmentListAllCommand
+
+[<--LogicManager
+deactivate LogicManager
+@enduml

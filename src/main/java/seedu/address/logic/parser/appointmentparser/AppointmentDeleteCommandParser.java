@@ -11,7 +11,7 @@ import seedu.address.logic.parser.exceptions.ParseException;
 /**
  * Parses input arguments and creates a new AppointmentDeleteCommand object
  */
-public class DeleteAppointmentCommandParser implements Parser<AppointmentDeleteCommand> {
+public class AppointmentDeleteCommandParser implements Parser<AppointmentDeleteCommand> {
 
     /**
      * Parses the given {@code String} of arguments in the context of the AppointmentDeleteCommand

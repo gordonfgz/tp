@@ -2,17 +2,17 @@ package seedu.address.logic.commands.appointmentcommands;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static seedu.address.logic.commands.appointmentcommands.AppointmentCommandTestUtil.DESC_FOLLOWUP;
-import static seedu.address.logic.commands.appointmentcommands.AppointmentCommandTestUtil.DESC_REVIEW;
-import static seedu.address.logic.commands.appointmentcommands.AppointmentCommandTestUtil.VALID_DESCRIPTION_ONE;
 //import static seedu.address.logic.commands.appointmentcommands.AppointmentCommandTestUtil.VALID_DESCRIPTION_TWO;
 //import static seedu.address.logic.commands.appointmentcommands.AppointmentCommandTestUtil.VALID_END_ONE;
 //import static seedu.address.logic.commands.appointmentcommands.AppointmentCommandTestUtil.VALID_START_ONE;
 //import static seedu.address.logic.commands.appointmentcommands.AppointmentCommandTestUtil.VALID_TAG_TWO;
-import static seedu.address.logic.commands.appointmentcommands.AppointmentCommandTestUtil.assertCommandFailure;
 //import static seedu.address.logic.commands.appointmentcommands.AppointmentCommandTestUtil.assertCommandSuccess;
-import static seedu.address.logic.commands.appointmentcommands.AppointmentCommandTestUtil.showAppointmentAtIndex;
 //import static seedu.address.logic.commands.appointmentcommands.AppointmentEditCommand.MESSAGE_DUPLICATE_APPOINTMENT;
+import static seedu.address.logic.commands.appointmentcommands.AppointmentCommandTestUtil.DESC_FOLLOWUP;
+import static seedu.address.logic.commands.appointmentcommands.AppointmentCommandTestUtil.DESC_REVIEW;
+import static seedu.address.logic.commands.appointmentcommands.AppointmentCommandTestUtil.VALID_DESCRIPTION_ONE;
+import static seedu.address.logic.commands.appointmentcommands.AppointmentCommandTestUtil.assertCommandFailure;
+import static seedu.address.logic.commands.appointmentcommands.AppointmentCommandTestUtil.showAppointmentAtIndex;
 import static seedu.address.testutil.TypicalAppointments.getTypicalAddressBook;
 import static seedu.address.testutil.TypicalIndexes.INDEX_FIRST_APPOINTMENT;
 import static seedu.address.testutil.TypicalIndexes.INDEX_SECOND_APPOINTMENT;
@@ -29,6 +29,8 @@ import seedu.address.model.ModelManager;
 import seedu.address.model.UserPrefs;
 //import seedu.address.model.appointment.Appointment;
 //import seedu.address.testutil.AppointmentBuilder;
+//import seedu.address.model.appointment.Appointment;
+//import seedu.address.testutil.AppointmentBuilder;
 import seedu.address.testutil.EditAppointmentDescriptorBuilder;
 
 /**
@@ -42,7 +44,7 @@ public class AppointmentEditCommandTest {
     //    @Test
     //    public void execute_allFieldsSpecifiedUnfilteredList_success() {
     //        Appointment editedAppointment = new AppointmentBuilder().build();
-    //        EditAppointmentDescriptor descriptor =
+    //        AppointmentEditCommand.EditAppointmentDescriptor descriptor =
     //                new EditAppointmentDescriptorBuilder(editedAppointment).build();
     //        AppointmentEditCommand appointmentEditCommand =
     //                new AppointmentEditCommand(INDEX_FIRST_APPOINTMENT, descriptor);

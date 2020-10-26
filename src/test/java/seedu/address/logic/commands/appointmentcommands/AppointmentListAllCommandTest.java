@@ -11,10 +11,10 @@ import seedu.address.model.ModelManager;
 import seedu.address.model.UserPrefs;
 
 /**
- * Contains integration tests (interaction with the Model) and unit tests for AppointmentListCommand.
+ * Contains integration tests (interaction with the Model) and unit tests for AppointmentListAllCommand.
  * NOT DONE
  */
-public class AppointmentListCommandTest {
+public class AppointmentListAllCommandTest {
 
     private Model model;
     private Model expectedModel;
@@ -27,13 +27,13 @@ public class AppointmentListCommandTest {
 
     @Test
     public void execute_listIsNotFiltered_showsSameList() {
-        assertCommandSuccess(new AppointmentListCommand(), model,
-                AppointmentListCommand.MESSAGE_LIST_APPOINTMENT_SUCCESS, expectedModel);
+        assertCommandSuccess(new AppointmentListAllCommand(), model,
+                AppointmentListAllCommand.MESSAGE_LIST_APPOINTMENT_SUCCESS, expectedModel);
     }
 
     @Test
     public void execute_listIsFiltered_showsEverything() {
-        assertCommandSuccess(new AppointmentListCommand(), model,
-                AppointmentListCommand.MESSAGE_LIST_APPOINTMENT_SUCCESS, expectedModel);
+        assertCommandSuccess(new AppointmentListAllCommand(), model,
+                AppointmentListAllCommand.MESSAGE_LIST_APPOINTMENT_SUCCESS, expectedModel);
     }
 }

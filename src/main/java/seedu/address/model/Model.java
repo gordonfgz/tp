@@ -1,6 +1,7 @@
 package seedu.address.model;
 
 import java.nio.file.Path;
+import java.time.LocalDateTime;
 import java.util.function.Predicate;
 
 import javafx.collections.ObservableList;
@@ -85,6 +86,8 @@ public interface Model {
     /** Returns an unmodifiable view of the filtered patient list */
     ObservableList<Patient> getFilteredPatientList();
 
+    // ObservableList<Patient> getStartFilteredPatientList();
+
     /**
      * Updates the filter of the filtered patient list to filter by the given {@code predicate}.
      * @throws NullPointerException if {@code predicate} is null.
@@ -105,6 +108,12 @@ public interface Model {
     void deleteAppointment(Appointment target);
 
     /**
+     * Sets the given appointment as completed.
+     * The appointment must exist in the address book.
+     */
+    void completeAppointment(Appointment target);
+
+    /**
      * Adds the given appointment.
      * {@code appointment} must not already exist in the address book.
      */
@@ -117,6 +126,12 @@ public interface Model {
      * the same as another existing appointment in the address book.
      */
     void setAppointment(Appointment target, Appointment editedAppointment);
+
+    /**
+     * Updates the appointments in the addressbook that have been missed by {@code now}.
+     * @throws NullPointerException if {@code now} is null.
+     */
+    void setMissedAppointments(LocalDateTime now);
 
     /** Returns an unmodifiable view of the filtered appointment list */
     ObservableList<Appointment> getFilteredAppointmentList();

@@ -15,6 +15,7 @@ import seedu.address.commons.util.ConfigUtil;
 import seedu.address.commons.util.StringUtil;
 import seedu.address.logic.Logic;
 import seedu.address.logic.LogicManager;
+import seedu.address.logic.TimerThread;
 import seedu.address.model.AddressBook;
 import seedu.address.model.Model;
 import seedu.address.model.ModelManager;
@@ -46,6 +47,7 @@ public class MainApp extends Application {
     protected Storage storage;
     protected Model model;
     protected Config config;
+    protected TimerThread timerThread;
 
     @Override
     public void init() throws Exception {
@@ -65,8 +67,12 @@ public class MainApp extends Application {
         model = initModelManager(storage, userPrefs);
 
         logic = new LogicManager(model, storage);
+        logic.execute("a-list");
 
         ui = new UiManager(logic);
+
+        timerThread = new TimerThread((logic));
+        timerThread.start();
     }
 
     /**
@@ -174,6 +180,7 @@ public class MainApp extends Application {
 
     @Override
     public void stop() {
+        timerThread.setStop();
         logger.info("============================ [ Stopping Archangel ] =============================");
         try {
             storage.saveUserPrefs(model.getUserPrefs());

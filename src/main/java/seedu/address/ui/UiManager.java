@@ -24,6 +24,7 @@ public class UiManager implements Ui {
 
     private Logic logic;
     private MainWindow mainWindow;
+    private MainWindow calenderWindow;
 
     /**
      * Creates a {@code UiManager} with the given {@code Logic}.
@@ -40,10 +41,24 @@ public class UiManager implements Ui {
         //Set the application icon.
         primaryStage.getIcons().add(getImage(ICON_APPLICATION));
 
+        Stage anotherStage = new Stage();
         try {
             mainWindow = new MainWindow(primaryStage, logic);
             mainWindow.show(); //This should be called before creating other UI parts
             mainWindow.fillInnerParts();
+
+            /*calender stuff
+            BorderPane root = new BorderPane();
+            Scene scene = new Scene(root, 400, 400);
+            DatePickerSkin datePickerSkin = new DatePickerSkin(new DatePicker(LocalDate.now()));
+            Node popupContent = datePickerSkin.getPopupContent();
+            root.setCenter(popupContent);
+            calenderWindow = new MainWindow(anotherStage,logic);
+            calenderWindow.show();
+            anotherStage.setScene(scene);
+             */
+
+
 
         } catch (Throwable e) {
             logger.severe(StringUtil.getDetails(e));

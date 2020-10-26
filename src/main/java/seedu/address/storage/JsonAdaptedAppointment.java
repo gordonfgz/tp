@@ -114,8 +114,8 @@ public class JsonAdaptedAppointment {
             throw new IllegalValueException(
                     String.format(MISSING_FIELD_MESSAGE_FORMAT, Boolean.class.getSimpleName()));
         }
-        final boolean modelIsCompleted = Boolean.getBoolean(isCompleted);
-        final boolean modelIsMissed = Boolean.getBoolean(isMissed);
+        final boolean modelIsCompleted = Boolean.parseBoolean(isCompleted);
+        final boolean modelIsMissed = Boolean.parseBoolean(isMissed);
         final Set<Tag> modelTags = new HashSet<>(appointmentTags);
         Appointment appointment = new Appointment(modelAppointmentTime, modelPatientString,
                 modelTags, modelIsCompleted, modelIsMissed, modelDescription);

@@ -3,6 +3,7 @@ package seedu.address.model.appointment;
 import static java.util.Objects.requireNonNull;
 import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import javafx.collections.FXCollections;
@@ -86,6 +87,32 @@ public class UniqueAppointmentList {
         requireNonNull(toRemove);
         if (!internalList.remove(toRemove)) {
             throw new AppointmentNotFoundException();
+        }
+    }
+
+    /**
+     * Sets the equivalent appointment from the list as completed.
+     * The appointment must exist in the list.
+     */
+    public void setComplete(Appointment toComplete) {
+        requireNonNull(toComplete);
+        int index = internalList.indexOf(toComplete);
+        if (index == -1) {
+            throw new AppointmentNotFoundException();
+        }
+        internalList.get(index).setIsCompleted();
+    }
+
+    /**
+     * Set appointments from the list as missed.
+     * LocalDateTime now is used to determine which appointments have been missed.
+     */
+    public void setMissedAppointments(LocalDateTime now) {
+        requireNonNull(now);
+        for (Appointment appointment: internalList) {
+            if (appointment.hasBeenMissed(now) && !appointment.isCompleted()) {
+                appointment.setIsMissed();
+            }
         }
     }
 

@@ -5,6 +5,7 @@ import static java.util.Objects.requireNonNull;
 import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
 
 import java.nio.file.Path;
+import java.time.LocalDateTime;
 import java.util.function.Predicate;
 import java.util.logging.Logger;
 
@@ -142,6 +143,13 @@ public class ModelManager implements Model {
     }
 
     @Override
+    public void completeAppointment(Appointment target) {
+        requireAllNonNull(target);
+        addressBook.setComplete(target);
+        updateFilteredAppointmentList(PREDICATE_SHOW_ALL_APPOINTMENTS);
+    }
+
+    @Override
     public void addAppointment(Appointment appointment) {
         addressBook.addAppointment(appointment);
         updateFilteredAppointmentList(PREDICATE_SHOW_ALL_APPOINTMENTS);
@@ -153,6 +161,13 @@ public class ModelManager implements Model {
         addressBook.setAppointment(target, editedAppointment);
         updateFilteredPatientList(PREDICATE_SHOW_ALL_PATIENTS);
     }
+
+    @Override
+    public void setMissedAppointments(LocalDateTime now) {
+        requireNonNull(now);
+        addressBook.setMissedAppointments(now);
+    }
+
 
     @Override
     public UserHistoryManager getUserHistoryManager() {
@@ -200,6 +215,11 @@ public class ModelManager implements Model {
     public ObservableList<Appointment> getFilteredAppointmentList() {
         return filteredAppointments;
     }
+
+    /*
+    @Override
+    public ObservableList<Appointment> getStartFilteredAppointmentList() {}
+     */
 
     @Override
     public void updateFilteredAppointmentList(Predicate<Appointment> predicate) {

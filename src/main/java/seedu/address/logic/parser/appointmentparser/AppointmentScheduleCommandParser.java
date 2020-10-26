@@ -26,7 +26,7 @@ import seedu.address.model.tag.Tag;
 /**
  * Parses input arguments and creates a new AppointmentScheduleCommand object
  */
-public class ScheduleAppointmentCommandParser implements Parser<AppointmentScheduleCommand> {
+public class AppointmentScheduleCommandParser implements Parser<AppointmentScheduleCommand> {
 
     /**
      * Parses the given {@code String} of arguments in the context of the AppointmentScheduleCommand

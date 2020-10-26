@@ -2,6 +2,7 @@ package seedu.address.model;
 
 import static java.util.Objects.requireNonNull;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
 
@@ -151,6 +152,22 @@ public class AddressBook implements ReadOnlyAddressBook {
      */
     public void removeAppointment(Appointment key) {
         appointments.remove(key);
+    }
+
+    /**
+     * Set {@code key} from this {@code AddressBook} as completed.
+     * {@code key} must exist in the address book.
+     */
+    public void setComplete(Appointment key) {
+        appointments.setComplete(key);
+    }
+
+    /**
+     * Set missed appointments from this {@code AddressBook} as missed.
+     * {@code now} is used to determine which appointments have been missed.
+     */
+    public void setMissedAppointments(LocalDateTime now) {
+        appointments.setMissedAppointments(now);
     }
 
     //// util methods

@@ -4,6 +4,8 @@ import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.temporal.TemporalAdjusters;
 import java.util.function.Predicate;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import seedu.address.model.appointment.Appointment;
 
@@ -11,10 +13,12 @@ import seedu.address.model.appointment.Appointment;
  * Filter appointments  {@code Appointment}'s {@code Patient}'s {@code startDate} that occurs this week.
  */
 public class SearchAppointmentWeekFilter implements Predicate<Appointment> {
+    private static final Logger LOGGER = Logger.getLogger("SearchAppointmentWeekFilter");
+    private static final String ASSERTION_ERROR = "Invalid appointment start and end date";
+    private static final String LOG = "Valid appointment start and end date";
     private LocalDate today;
     private LocalDate thisWeekSunday;
     private LocalDate thisWeekSaturday;
-
 
     /**
      * Class Constructor.
@@ -27,6 +31,8 @@ public class SearchAppointmentWeekFilter implements Predicate<Appointment> {
 
     @Override
     public boolean test(Appointment appointment) {
+        assert appointment.getStartTime().isBefore(appointment.getEndTime()) : ASSERTION_ERROR;
+        LOGGER.log(Level.WARNING, LOG);
         LocalDate appointmentStartDate = appointment.getStartTime().toLocalDate();
         LocalDate appointmentEndDate = appointment.getEndTime().toLocalDate();
 
@@ -41,6 +47,7 @@ public class SearchAppointmentWeekFilter implements Predicate<Appointment> {
                 && today.equals(((SearchAppointmentWeekFilter) other).today)); // state check
     }
 
+    // Code is adapted from
     // https://stackoverflow.com/questions/4535583/how-to-detect-if-a-date-is-within-this-or-next-week-in-java
     /**
      * Check if the appointment's date occurs this week.

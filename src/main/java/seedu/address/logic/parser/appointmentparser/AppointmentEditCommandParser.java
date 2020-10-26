@@ -29,7 +29,7 @@ import seedu.address.model.tag.Tag;
 /**
  * Parses input arguments and creates a new AppointmenttEditCommand object
  */
-public class EditAppointmentCommandParser implements Parser<AppointmentEditCommand> {
+public class AppointmentEditCommandParser implements Parser<AppointmentEditCommand> {
 
     /**
      * Parses the given {@code String} of arguments in the context of the AppointmentEditCommand

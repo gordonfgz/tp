@@ -8,6 +8,9 @@ import seedu.address.model.appointment.Appointment;
  * Tests that a {@code Appointment}'s {@code Patient}'s {@code isMissed} matches the Boolean provided.
  */
 public class SearchAppointmentMissedFilter implements Predicate<Appointment> {
+
+    private static final String ASSERT_MESSAGE = "An appointment cannot be both completed and missed at the same time.";
+
     private final Boolean isMissed;
 
     public SearchAppointmentMissedFilter() {
@@ -16,6 +19,7 @@ public class SearchAppointmentMissedFilter implements Predicate<Appointment> {
 
     @Override
     public boolean test(Appointment appointment) {
+        assert appointment.isCompleted() && appointment.isMissed() : ASSERT_MESSAGE;
         return appointment.isMissed().equals(isMissed);
     }
 

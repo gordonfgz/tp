@@ -23,8 +23,8 @@ public class Appointment {
     private Patient patient;
     private String patientString;
     private Set<Tag> tags = new HashSet<>();
-    private final Boolean isCompleted;
-    private final Boolean isMissed;
+    private Boolean isCompleted;
+    private Boolean isMissed;
     private Description description;
 
     /**
@@ -55,7 +55,6 @@ public class Appointment {
         this.tags.addAll(tags);
     }
 
-
     public AppointmentTime getAppointmentTime() {
         return this.appointmentTime;
     }
@@ -76,10 +75,6 @@ public class Appointment {
         return this.patientString;
     }
 
-    public Index getPatientIndex() {
-        return Index.fromZeroBased(Integer.parseInt(this.patientString));
-    }
-
     public Boolean isMissed() {
         return this.isMissed;
     }
@@ -91,6 +86,13 @@ public class Appointment {
     public Description getDescription() {
         return this.description;
     }
+
+    public Index getPatientIndex() {
+        return Index.fromZeroBased(Integer.parseInt(this.patientString));
+    }
+
+
+
 
     // Method to edit Appointment class directly without use of EditAppointmentDescriptor
     // to try fixing Json format conversion from showing patient field as "null".
@@ -162,6 +164,30 @@ public class Appointment {
                 && otherAppointment.getAppointmentTime().equals(getAppointmentTime())
                 && otherAppointment.getPatient().equals(getPatient())
                 && otherAppointment.getDescription().equals(getDescription());
+    }
+
+    /**
+     * Sets appointment as completed.
+     */
+    public void setIsCompleted() {
+        this.isCompleted = true;
+    }
+
+    /**
+     * Sets appointment as missed.
+     */
+    public void setIsMissed() {
+        this.isMissed = true;
+    }
+
+    /**
+     * Checks if the appointment has been missed.
+     * An appointment has been missed if it ends before LocalDateTime {@code now} and is not completed.
+     */
+    public boolean hasBeenMissed(LocalDateTime now) {
+        boolean isBefore = this.appointmentTime.getEnd().isBefore(now);
+        boolean isUncompleted = !this.isCompleted;
+        return isBefore && isUncompleted;
     }
 
     /**
