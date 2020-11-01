@@ -184,8 +184,13 @@ public class AddressBook implements ReadOnlyAddressBook {
         return patients.asUnmodifiableObservableList();
     }
 
+    /**
+     * Sorts the appointment list then returns as an unmodifiableObservableList.
+     * @return sorted, unmodifiable appointment list
+     */
     @Override
     public ObservableList<Appointment> getAppointmentList() {
+        appointments.sortAppointmentList();
         return appointments.asUnmodifiableObservableList();
     }
 
@@ -199,7 +204,7 @@ public class AddressBook implements ReadOnlyAddressBook {
 
     @Override
     public int hashCode() {
-        // custome hash code
+        // custom hash code
         return Objects.hash(patients, appointments);
     }
 }

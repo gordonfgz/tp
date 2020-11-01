@@ -26,16 +26,16 @@ public class AppointmentScheduleCommand extends Command {
 
     public static final String COMMAND_WORD = "a-schedule";
 
-    public static final String MESSAGE_USAGE = COMMAND_WORD + ": Schedules an appointment to Archangel."
+    public static final String MESSAGE_USAGE = COMMAND_WORD + ": Schedules an appointment to Archangel.\n"
             + "Parameters: "
             + PREFIX_APPOINTMENT_START + "START "
             + PREFIX_APPOINTMENT_END + "END "
             + PREFIX_PATIENT + "PATIENT "
-            + PREFIX_DESCRIPTION + "BLOOD_TYPE "
+            + PREFIX_DESCRIPTION + "DESCRIPTION "
             + "[" + PREFIX_TAG + "TAG]...\n"
             + "Example: " + COMMAND_WORD + " "
-            + PREFIX_APPOINTMENT_START + "2020-01-25 08:00 "
-            + PREFIX_APPOINTMENT_END + "2020-01-25 12:00 "
+            + PREFIX_APPOINTMENT_START + "2020-12-25 08:00 "
+            + PREFIX_APPOINTMENT_END + "2020-12-25 12:00 "
             + PREFIX_PATIENT + "1 "
             + PREFIX_DESCRIPTION + "Medical checkup "
             + PREFIX_TAG + "LowPriority";
@@ -97,6 +97,7 @@ public class AppointmentScheduleCommand extends Command {
             if (model.hasAppointment(toSchedule)) {
                 throw new CommandException(MESSAGE_DUPLICATE_APPOINTMENT);
             }
+
             model.addAppointment(toSchedule);
             model.getFilteredAppointmentList();
 

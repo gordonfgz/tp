@@ -194,8 +194,11 @@ Schedules a new patient appointment in Archangel.
 
 Format: `a-schedule pt/INDEX start/DATE&TIME end/DATE&TIME d/DESCRIPTION [t/TAGS]…`
 
+* TAGS should be alphanumeric.
+* Appointment time (i.e. duration from `start` to `end`) cannot overlap with another existing appointment.
 * Schedules patient appointment for patient at INDEX in the displayed patient list.
 * Appointment will be set to input DATE (format: YYYY-MM-DD) and TIME (format: HH:MM).
+* Appointment time must be indicated as HH:MM (i.e. 9AM must be `09:00`, and not `9:00`).
 
 Examples:
 * `a-schedule pt/2 start/2020-09-14 08:00 end/2020-09-14 10:00 d/Review Appointment` schedules an appointment for patient 2 on 2020-09-14 at 08-00 with appointment description Review Appointment.
@@ -361,7 +364,7 @@ Delete Patient                       | `p-delete INDEX` <br>e.g. `p-delete 3`
 Adding Patient Remark                | `p-remark INDEX r/REMARK` <br>e.g. `p-remark 1 r/Likes to swim.`
 Removing Patient Remark              | `p-remark INDEX` <br>e.g. `p-remark 3`
 Help                                 | `help`
-Schedule Appointment                 | `a-schedule i/INDEXOFPATIENT start/DATE&TIME end/DATE&TIME d/DESCRIPTION [t/TAGS]…`​<br> e.g. `a-schedule i/2 start/2020-09-14 08:00 end/2020-09-14 10:00 d/Review Appointment`
+Schedule Appointment                 | `a-schedule pt/INDEXOFPATIENT start/DATE&TIME end/DATE&TIME d/DESCRIPTION [t/TAGS]…`​<br> e.g. `a-schedule pt/2 start/2020-09-14 08:00 end/2020-09-14 10:00 d/Review Appointment`
 Delete Appointment                   | `a-delete INDEX` <br>e.g. `a-delete 3`
 Edit Appointment                     | `a-edit INDEX [start/DATE&TIME] [end/DATE&TIME] [d/DESCRIPTION] [t/TAGS]…` <br> e.g. `a-edit 2 start/2020-09-15 12:00 end/2020-09-15 14:00`
 Complete Appointments                | `a-complete INDEX`

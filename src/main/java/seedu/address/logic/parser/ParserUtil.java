@@ -5,6 +5,7 @@ import static java.util.Objects.requireNonNull;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
+import java.time.format.ResolverStyle;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
@@ -12,6 +13,7 @@ import java.util.Set;
 import seedu.address.commons.core.index.Index;
 import seedu.address.commons.util.StringUtil;
 import seedu.address.logic.parser.exceptions.ParseException;
+import seedu.address.model.appointment.AppointmentTime;
 import seedu.address.model.appointment.Description;
 import seedu.address.model.patient.Address;
 import seedu.address.model.patient.Birthdate;
@@ -32,7 +34,8 @@ public class ParserUtil {
     /**
      * Formats date and time inputs as: yyyy-MM-dd hh:mm (eg. 2020-02-20 08:00).
      */
-    public static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+    public static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern("uuuu-MM-dd HH:mm")
+            .withResolverStyle(ResolverStyle.STRICT);
 
     /**
      * Parses {@code oneBasedIndex} into an {@code Index} and returns it. Leading and trailing whitespaces will be
@@ -169,7 +172,7 @@ public class ParserUtil {
         try {
             localDateTime = LocalDateTime.parse(trimmedDateTime, DATE_FORMATTER);
         } catch (DateTimeParseException e) {
-            throw new ParseException(Name.MESSAGE_CONSTRAINTS);
+            throw new ParseException(AppointmentTime.MESSAGE_CONSTRAINTS);
         }
         return localDateTime;
     }

@@ -28,6 +28,10 @@ import seedu.address.model.tag.Tag;
  */
 public class AppointmentScheduleCommandParser implements Parser<AppointmentScheduleCommand> {
 
+    public static final String MESSAGE_CONSTRAINTS =
+            "Appointments can only be scheduled for future appointment time.\n"
+            + "i.e. you cannot schedule an Appointment before the current time.";
+
     /**
      * Parses the given {@code String} of arguments in the context of the AppointmentScheduleCommand
      * and returns an AppointmentScheduleCommand object for execution.
@@ -47,6 +51,12 @@ public class AppointmentScheduleCommandParser implements Parser<AppointmentSched
         }
         LocalDateTime startTime = ParserUtil.parseDateTime(argMultimap.getValue(PREFIX_APPOINTMENT_START).get());
         LocalDateTime endTime = ParserUtil.parseDateTime(argMultimap.getValue(PREFIX_APPOINTMENT_END).get());
+
+        // cannot schedule an Appointment before now.
+        if (startTime.isBefore(LocalDateTime.now()) || endTime.isBefore(LocalDateTime.now())) {
+            throw new ParseException(MESSAGE_CONSTRAINTS);
+        }
+
         AppointmentTime appointmentTime = new AppointmentTime(startTime, endTime);
         Description description = ParserUtil.parseDescription(argMultimap.getValue(PREFIX_DESCRIPTION).get());
         Set<Tag> tagList = ParserUtil.parseTags(argMultimap.getAllValues(PREFIX_TAG));
